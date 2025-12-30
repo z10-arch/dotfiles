@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
+vim.opt.wrap = true
