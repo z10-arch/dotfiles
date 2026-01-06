@@ -82,6 +82,10 @@ if command -v bat >/dev/null 2>&1; then
   alias cat="bat"
 fi
 
+if command -v nvim >/dev/null 2>&1; then
+  alias vim="nvim"
+fi
+
 # ----------------------------
 # Safety for root
 # ----------------------------
