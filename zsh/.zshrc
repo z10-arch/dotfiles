@@ -78,7 +78,7 @@ else
   alias la="ls -la"
 fi
 
-if command -v bat >/dev/null 2>&1; then
+if command -v batcat >/dev/null 2>&1; then
   alias cat="batcat"
 fi
 
