@@ -79,7 +79,7 @@ else
 fi
 
 if command -v bat >/dev/null 2>&1; then
-  alias cat="bat"
+  alias cat="batcat"
 fi
 
 if command -v nvim >/dev/null 2>&1; then
