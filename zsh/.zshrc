@@ -1,5 +1,9 @@
 # Minimal interactive Zsh setup — managed with GNU Stow.
 
+# User-installed CLIs (including Codex) live here.  The installer updated
+# ~/.profile, which Zsh does not read; tmux starts the user's Zsh by default.
+export PATH="$HOME/.local/bin:$PATH"
+
 # Fast, case-insensitive Tab completion.
 autoload -Uz compinit
 compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
