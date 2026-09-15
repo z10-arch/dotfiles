@@ -4,6 +4,17 @@
 # ~/.profile, which Zsh does not read; tmux starts the user's Zsh by default.
 export PATH="$HOME/.local/bin:$PATH"
 
+# Recover a *non-tmux* terminal left in xterm mouse-reporting mode by a
+# disconnected full-screen program. In tmux, mouse state belongs to tmux.
+_disable_leaked_mouse_reporting() {
+  [[ -z ${TMUX-} && -t 1 ]] || return
+  printf '\e[?1000l\e[?1002l\e[?1003l\e[?1005l\e[?1006l\e[?1015l'
+}
+if [[ -o interactive ]]; then
+  _disable_leaked_mouse_reporting
+  precmd_functions+=(_disable_leaked_mouse_reporting)
+fi
+
 # Fast, case-insensitive Tab completion.
 autoload -Uz compinit
 compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
@@ -21,6 +32,8 @@ PROMPT='%~ %# '
 
 # Modern directory listings. Keep the familiar ls, ll, and la commands.
 if (( $+commands[eza] )); then
+  # High-contrast eza palette: avoids the faint grey metadata in its defaults.
+  export EZA_COLORS='di=1;94:ex=1;92:ln=1;96:da=97:hd=1;97:uu=1;97:gu=1;97:sn=1;97:sb=1;97:ur=92:uw=91:ux=92:gr=93:gw=91:gx=92:tr=93:tw=91:tx=92'
   alias ls='eza --group-directories-first --icons=auto'
   alias ll='eza --long --header --git --group-directories-first --icons=auto'
   alias la='eza --long --all --header --git --group-directories-first --icons=auto'
