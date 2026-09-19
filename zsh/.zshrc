@@ -76,6 +76,18 @@ for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[?61;4;6;7;14;21;22;23;24;28;32;42;52c' _ignore_terminal_device_attributes
 done
 
+# If a terminal falls back to legacy X10 mouse reports, discard a complete
+# report (ESC [ M plus its three payload bytes) rather than inserting its
+# coordinates as text at the prompt.
+_ignore_legacy_mouse_report() {
+  local discarded
+  read -rk 3 discarded
+}
+zle -N _ignore_legacy_mouse_report
+for keymap in emacs viins; do
+  bindkey -M "$keymap" '^[[M' _ignore_legacy_mouse_report
+done
+
 # Syntax highlighting must be sourced last.
 if [[ -r /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
