@@ -64,14 +64,16 @@ for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[3D' backward-word
 done
 
-# Some remote terminal connections leak this Secondary Device Attributes reply
-# (ESC [ > 0 ; 10 ; 1 c) into Zsh after attaching. It is not user input, so
-# discard it when it reaches the line editor. OSC 52 clipboard passthrough is
-# unaffected.
+# Some terminals leak a Device Attributes reply into Zsh after attaching.
+# These are terminal protocol replies, not user input.  The first is the
+# older secondary-DA format; the second is the primary-DA format reported by
+# the current xterm-compatible terminal.  Discard them at the line editor.
+# OSC 52 clipboard passthrough is unaffected.
 _ignore_terminal_device_attributes() { }
 zle -N _ignore_terminal_device_attributes
 for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[>0;10;1c' _ignore_terminal_device_attributes
+  bindkey -M "$keymap" '^[[?61;4;6;7;14;21;22;23;24;28;32;42;52c' _ignore_terminal_device_attributes
 done
 
 # Syntax highlighting must be sourced last.
