@@ -48,6 +48,7 @@ packages=(
   tmux
   unar
   yazi
+  unzip
   zoxide
   zsh
   zsh-autosuggestions
